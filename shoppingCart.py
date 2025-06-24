@@ -2,29 +2,31 @@ from typing import Dict
 from product import product
 class shoppingCart:
     def __init__(self) -> None:
-        # keys are product names; values are tuples: (Product, quantity)
+        # keys are normalized product names; values are tuples: (Product, quantity)
         self.items: Dict[str, tuple[product, int]] = {}
 
     def add_item(self, product: product, qty: int = 1) -> None:
-        if product.name in self.items:
-            _, current_qty = self.items[product.name]
-            self.items[product.name] = (product, current_qty + qty)
+        key = product.name.strip().lower()  # Normalize
+        if key in self.items:
+            _, current_qty = self.items[key]
+            self.items[key] = (product, current_qty + qty)
         else:
-            self.items[product.name] = (product, qty)
+            self.items[key] = (product, qty)
         print(f"Added {qty} x {product.name}")
 
     def remove_item(self, product_name: str, qty: int = 1) -> None:
-        entry = self.items.get(product_name)
+        key = product_name.strip().lower()  # Normalize
+        entry = self.items.get(key)
         if not entry:
             print(f"No item named '{product_name}' in cart.")
             return
 
         product, current_qty = entry
         if qty >= current_qty:
-            del self.items[product_name]
+            del self.items[key]
             print(f"Removed all of '{product_name}'")
         else:
-            self.items[product_name] = (product, current_qty - qty)
+            self.items[key] = (product, current_qty - qty)
             print(f"Removed {qty} x {product_name}")
 
     def view_cart(self) -> None:

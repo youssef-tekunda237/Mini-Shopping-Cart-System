@@ -5,7 +5,7 @@ class payment(ABC):
     def pay(self, amount: float) :
         pass
 
-class StripeProcessor(payment):
+class stripeProcessor(payment):
     def pay(self, amount: float):
         print(f"[Stripe] Charged ${amount:.2f}")
 

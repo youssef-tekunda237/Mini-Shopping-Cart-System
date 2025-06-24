@@ -4,6 +4,5 @@ class discountedProduct(product):
         super().__init__(name)
         self.base_price = price
         self.discount_percent = discount_percent
-
-    def price(self) :
+    def price(self):
         return self.base_price * (1 - self.discount_percent / 100)

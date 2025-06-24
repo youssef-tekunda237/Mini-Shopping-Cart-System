@@ -1,8 +1,8 @@
 from shoppingCart import shoppingCart
-from product import product
-# from order import order
-# from discountProduct import discountedProduct
+from product import simpleProduct  # <-- Use simpleProduct
+from order import order 
 from payment import stripeProcessor
+
 def main():
     print("Welcome to the Mini Shopping Cart System!")
     cart = shoppingCart()
@@ -20,17 +20,16 @@ def main():
         if choice == '1':
             name = input("Product name: ")
             price = float(input("Product price: "))
-            prod = product(name, price)
+            prod = simpleProduct(name, price)  # <-- Use simpleProduct
             qty = int(input("Quantity: "))
             cart.add_item(prod, qty)
-            print(f"Added {qty} x {name}")
+            
 
         elif choice == '2':
             name = input("Product name: ")
-            dummy = product(name, 0)
             qty = int(input("Quantity to remove: "))
             try:
-                cart.remove_item(dummy, qty)
+                cart.remove_item(name, qty)  # Pass name, not dummy product
                 print(f"Removed {qty} x {name}")
             except KeyError:
                 print("Product not found in cart.")
@@ -40,9 +39,9 @@ def main():
 
         elif choice == '4':
             print("Checkout processing...")
-            order = order(cart, stripeProcessor())
-            order.checkout()
-            print(order)
+            order_obj = order(cart, stripeProcessor())
+            order_obj.checkout()
+            print(order_obj)
             break
 
         elif choice == '5':
